@@ -1,7 +1,10 @@
 extends Node
 
 @export var mob_scene: PackedScene
+@export var level_up_1: int = 30
 var score
+@onready var player: Area2D = $Player
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -58,6 +61,11 @@ func _on_mob_timer_timeout() -> void:
 func _on_score_timer_timeout() -> void:
 	score += 1
 	$HUD.update_score(score)
+	
+	if score >= level_up_1:
+		print("main: level up 1")
+		player.set_level(1)
+		
 
 
 func _on_start_timer_timeout() -> void:

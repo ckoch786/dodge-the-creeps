@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://di8i64tiyb56r"]
+
+[ext_resource type="Texture2D" uid="uid://c3nnim0r2nimn" path="res://art/coin.png" id="1_a85iw"]
+[ext_resource type="Script" uid="uid://dd2b3x0uwa8y2" path="res://projectile.gd" id="2_qxf0c"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qxf0c"]
+size = Vector2(8, 16)
+
+[node name="Projectile" type="Sprite2D"]
+texture = ExtResource("1_a85iw")
+region_enabled = true
+region_rect = Rect2(176, 0, 15, 16)
+script = ExtResource("2_qxf0c")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_qxf0c")

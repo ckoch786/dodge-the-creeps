@@ -32,6 +32,7 @@ loop = true
 [node name="Main" type="Node"]
 script = ExtResource("1_0xm2m")
 mob_scene = ExtResource("2_1bvp3")
+level_up_1 = 1
 
 [node name="ColorRect" type="ColorRect" parent="."]
 anchors_preset = 15

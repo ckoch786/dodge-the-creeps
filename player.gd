@@ -4,6 +4,8 @@ signal hit
 
 @export var speed = 400
 var screen_size
+@export var has_projectiles: bool = false
+@export var parent_for_projectiles:NodePath
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -40,6 +42,15 @@ func _process(delta: float) -> void:
 		$AnimatedSprite2D.animation = "up"
 		$AnimatedSprite2D.flip_v = velocity.y > 0
 		
+	if has_projectiles:
+		if Input.is_action_pressed("fire_projectile"):
+			print("player: firing projectile")
+			var projectile_scene = preload("res://projectile.tscn")
+			var new_projectile = projectile_scene.instantiate()
+	
+			new_projectile.global_position = global_position
+			var parent = get_node(parent_for_projectiles)
+			parent.add_child(new_projectile)
 
 
 func _on_body_entered(body: Node2D) -> void:
@@ -52,3 +63,6 @@ func start(pos):
 	position = pos
 	show()
 	$CollisionShape2D.disabled = false
+	
+func set_level(level_num):
+	has_projectiles = true

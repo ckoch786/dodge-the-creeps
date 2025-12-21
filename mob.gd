@@ -1,5 +1,9 @@
 extends RigidBody2D
 
+@export var speed: float = 200
+@export var health:float = 100
+
+signal died()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -14,3 +18,10 @@ func _process(delta: float) -> void:
 
 func _on_visible_on_screen_notifier_2d_screen_exited():
 	queue_free()
+
+func take_damage(damage:float):
+	health -= damage
+	
+	if health <= 0:
+		died.emit()
+		queue_free()
