@@ -2,6 +2,7 @@ extends Node
 
 @export var mob_scene: PackedScene
 @export var level_up_1: int = 30
+@export var lives: int = 3
 var score: int = 0
 @onready var player: Area2D = $Player
 var enemies_killed: int = 0
@@ -20,15 +21,21 @@ func set_highest_score() -> void:
 	if enemies_killed > highest_score:
 		highest_score = enemies_killed
 
-func game_over() -> void:
+func die() -> void:
 	$ScoreTimer.stop()
 	$MobTimer.stop()
-	$HUD.show_game_over()
+	$HUD.show_game_over(false)
+	set_highest_score()
 	$Music.stop()
 	$DeathSound.play()
-	set_highest_score()
-	$EnemyKillCount.text = ""
-	$HighestScore.text = "Highest Score = " + str(highest_score + 1)
+
+
+func game_over() -> void:
+	die()
+	$HUD.show_game_over(true)
+	$HighestScore.text = "Highest Score " + str(highest_score)
+	enemies_killed = 0
+	lives = 3
 	
 	
 
@@ -36,7 +43,9 @@ func new_game():
 	score = 0
 	enemies_killed = 0
 	$HighestScore.text = ""
-	$EnemyKillCount.text = "Enemies Killed = " + str(enemies_killed)
+	$Lives.text = str(lives)
+	$EnemyKillCount.text = str(enemies_killed)
+	
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
 	$HUD.update_score(score)
@@ -48,7 +57,7 @@ func new_game():
 # Mob died signal
 func _on_enemy_died() -> void:
 	enemies_killed += 1
-	$EnemyKillCount.text = "Enemies Killed = " + str(enemies_killed)
+	$EnemyKillCount.text = str(enemies_killed)
 
 func _on_mob_timer_timeout() -> void:
 	# Create a new instance of the Mob scene.
@@ -89,3 +98,11 @@ func _on_score_timer_timeout() -> void:
 func _on_start_timer_timeout() -> void:
 	$MobTimer.start()
 	$ScoreTimer.start()
+
+
+func _on_player_hit() -> void:
+	die()
+	lives -= 1
+	$Lives.text = str(lives)
+	if lives <= 0:
+		game_over()

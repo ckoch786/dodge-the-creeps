@@ -7,6 +7,7 @@ var screen_size
 @export var has_projectiles: bool = false
 @export var parent_for_projectiles:NodePath
 @export var projectile_scene:PackedScene = preload("res://projectile.tscn")
+var alive: bool = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -16,6 +17,8 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if not alive:
+		return
 	var velocity = Vector2.ZERO
 	if Input.is_action_pressed("move_right"):
 		velocity.x += 1
@@ -49,14 +52,15 @@ func _process(delta: float) -> void:
 
 
 func _on_body_entered(body: Node2D) -> void:
-	hide() # Player disapperas after being hit.
+	hide() # Player disappears after being hit.
 	hit.emit()
 	# Must be deferred as we can't change physics properties on a physics callback.
 	$CollisionShape2D.set_deferred("disabled", true)
-	queue_free()
+	alive = false
 	
 func start(pos):
 	position = pos
+	alive = true
 	show()
 	$CollisionShape2D.disabled = false
 	
@@ -64,6 +68,8 @@ func set_level(level_num):
 	has_projectiles = true
 	
 func fire_projectile():
+	if not alive:
+		return
 	print("player: firing projectile")
 	print("player: projectile_scene=", projectile_scene)
 	var new_projectile = projectile_scene.instantiate()

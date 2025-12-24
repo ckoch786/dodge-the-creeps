@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=4 uid="uid://oyc4tpt6una1"]
+[gd_scene load_steps=10 format=4 uid="uid://oyc4tpt6una1"]
 
 [ext_resource type="Script" uid="uid://df0gyi641250m" path="res://main.gd" id="1_0xm2m"]
 [ext_resource type="PackedScene" uid="uid://beje2p3qswo04" path="res://mob.tscn" id="2_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://cqt4t1hvcvmri" path="res://player.tscn" id="2_h2yge"]
 [ext_resource type="PackedScene" uid="uid://dwr0vx3lc1sxo" path="res://hud.tscn" id="4_1bvp3"]
 [ext_resource type="AudioStream" uid="uid://becm6ewwud46d" path="res://art/gameover.wav" id="5_lquwl"]
+[ext_resource type="FontFile" uid="uid://d2gi5pvxoslwt" path="res://fonts/Xolonium-Regular.ttf" id="6_7mycd"]
 
 [sub_resource type="Curve2D" id="Curve2D_1bvp3"]
 _data = {
@@ -71,16 +72,54 @@ stream = SubResource("AudioStreamOggVorbis_7mycd")
 stream = ExtResource("5_lquwl")
 
 [node name="EnemyKillCount" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
+offset_left = 32.0
+offset_right = 77.0
+offset_bottom = 78.0
+theme_override_fonts/font = ExtResource("6_7mycd")
+theme_override_font_sizes/font_size = 64
+text = "0"
+
+[node name="EnemyKillCountLabel" type="Label" parent="."]
+offset_left = 24.0
+offset_top = 72.0
+offset_right = 104.0
+offset_bottom = 115.0
+theme_override_fonts/font = ExtResource("6_7mycd")
+text = "Enemies 
+Defeated"
 
 [node name="HighestScore" type="Label" parent="."]
-offset_left = 112.0
-offset_top = 96.0
-offset_right = 296.0
-offset_bottom = 152.0
+offset_left = 24.0
+offset_top = 264.0
+offset_right = 464.0
+offset_bottom = 320.0
+theme_override_fonts/font = ExtResource("6_7mycd")
+theme_override_font_sizes/font_size = 37
 
-[connection signal="hit" from="Player" to="." method="game_over"]
+[node name="Lives" type="Label" parent="."]
+anchors_preset = -1
+anchor_right = 0.033
+anchor_bottom = 0.022000002
+offset_left = 344.0
+offset_right = 456.16
+offset_bottom = 62.16
+theme_override_fonts/font = ExtResource("6_7mycd")
+theme_override_font_sizes/font_size = 64
+text = "0"
+
+[node name="LivesLabel" type="Label" parent="."]
+anchors_preset = -1
+anchor_right = 0.067
+anchor_bottom = 0.032
+offset_left = 344.0
+offset_top = 72.0
+offset_right = 381.84
+offset_bottom = 79.96
+theme_override_fonts/font = ExtResource("6_7mycd")
+theme_override_font_sizes/font_size = 16
+text = "Lives"
+
+[connection signal="hit" from="Player" to="." method="_on_player_hit"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
