@@ -52,6 +52,7 @@ height = 82.0
 collision_mask = 0
 gravity_scale = 0.0
 script = ExtResource("1_1qmh0")
+health = 25.0
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -64,3 +65,5 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_b3mxk")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="died" from="." to="." method="_on_died"]

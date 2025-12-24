@@ -38,7 +38,7 @@ height = 68.0
 [node name="Player" type="Area2D"]
 script = ExtResource("1_sweqy")
 has_projectiles = true
-parent_for_projectiles = NodePath(".")
+parent_for_projectiles = NodePath("..")
 metadata/_edit_group_ = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

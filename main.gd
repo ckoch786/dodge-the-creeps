@@ -2,9 +2,10 @@ extends Node
 
 @export var mob_scene: PackedScene
 @export var level_up_1: int = 30
-var score
+var score: int = 0
 @onready var player: Area2D = $Player
-
+var enemies_killed: int = 0
+var highest_score = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -15,6 +16,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	pass
 
+func set_highest_score() -> void:
+	if enemies_killed > highest_score:
+		highest_score = enemies_killed
 
 func game_over() -> void:
 	$ScoreTimer.stop()
@@ -22,9 +26,17 @@ func game_over() -> void:
 	$HUD.show_game_over()
 	$Music.stop()
 	$DeathSound.play()
+	set_highest_score()
+	$EnemyKillCount.text = ""
+	$HighestScore.text = "Highest Score = " + str(highest_score + 1)
+	
+	
 
 func new_game():
 	score = 0
+	enemies_killed = 0
+	$HighestScore.text = ""
+	$EnemyKillCount.text = "Enemies Killed = " + str(enemies_killed)
 	$Player.start($StartPosition.position)
 	$StartTimer.start()
 	$HUD.update_score(score)
@@ -32,10 +44,16 @@ func new_game():
 	get_tree().call_group("mobs", "queue_free")
 	$Music.play()
 
+
+# Mob died signal
+func _on_enemy_died() -> void:
+	enemies_killed += 1
+	$EnemyKillCount.text = "Enemies Killed = " + str(enemies_killed)
+
 func _on_mob_timer_timeout() -> void:
 	# Create a new instance of the Mob scene.
 	var mob = mob_scene.instantiate()
-
+	mob.died.connect(_on_enemy_died)
 	# Choose a random location on Path2D.
 	var mob_spawn_location = $MobPath/MobSpawnLocation
 	mob_spawn_location.progress_ratio = randf()

@@ -4,7 +4,7 @@ extends Sprite2D
 @export var damage:float = 25
 
 func _physics_process(delta: float) -> void:
-	global_position += Vector2(speed * delta, 0)
+	global_position += Vector2(0, -(speed * delta))
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:

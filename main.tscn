@@ -70,6 +70,16 @@ stream = SubResource("AudioStreamOggVorbis_7mycd")
 [node name="DeathSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_lquwl")
 
+[node name="EnemyKillCount" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="HighestScore" type="Label" parent="."]
+offset_left = 112.0
+offset_top = 96.0
+offset_right = 296.0
+offset_bottom = 152.0
+
 [connection signal="hit" from="Player" to="." method="game_over"]
 [connection signal="timeout" from="MobTimer" to="." method="_on_mob_timer_timeout"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_score_timer_timeout"]
